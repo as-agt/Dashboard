@@ -370,8 +370,10 @@
             <div class="platform-tabs"><button class="platform-tab active" onclick="switchPlatform('all',this)"><span class="tab-dot all"></span>Toutes</button><button class="platform-tab" onclick="switchPlatform('meta',this)"><span class="tab-dot meta"></span>Meta Ads</button><button class="platform-tab" onclick="switchPlatform('linkedin',this)"><span class="tab-dot linkedin"></span>LinkedIn Ads</button></div>
             <div class="kpi-grid" id="kpiGrid"></div>
             <div class="grid-1-1"><div class="card"><div class="card-header"><div><div class="card-title">&Eacute;volution des d&eacute;penses</div><div class="card-subtitle">D&eacute;penses mensuelles Meta vs LinkedIn</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--meta-blue)"></span>Meta</div><div class="legend-item"><span class="legend-dot" style="background:var(--linkedin-blue)"></span>LinkedIn</div></div></div><div class="chart-container"><canvas id="spendChart"></canvas></div></div><div class="card"><div class="card-header"><div><div class="card-title">Leads par mois</div><div class="card-subtitle">Prospects g&eacute;n&eacute;r&eacute;s via Meta &amp; LinkedIn</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--meta-blue)"></span>Meta</div><div class="legend-item"><span class="legend-dot" style="background:var(--linkedin-blue)"></span>LinkedIn</div></div></div><div class="chart-container"><canvas id="leadsChart"></canvas></div></div></div>
-            <div class="grid-1-1"><div class="card"><div class="card-header"><div><div class="card-title">R&eacute;partition du budget</div><div class="card-subtitle">Par audience / ensemble de publicit&eacute;s</div></div></div><div class="chart-container"><canvas id="budgetChart"></canvas></div></div><div class="card"><div class="card-header"><div><div class="card-title">Co&ucirc;t par lead</div><div class="card-subtitle">&Eacute;volution mensuelle du CPL</div></div></div><div class="chart-container"><canvas id="cplChart"></canvas></div></div></div>
-            <div class="grid-1-1"><div class="card"><div class="card-header"><div><div class="card-title">CTR par audience</div><div class="card-subtitle">Taux de clics par ensemble de publicit&eacute;s</div></div></div><div class="chart-container"><canvas id="ctrChart"></canvas></div></div><div class="card"><div class="card-header"><div><div class="card-title">Leads par audience</div><div class="card-subtitle">Prospects par ensemble de publicit&eacute;s</div></div></div><div class="chart-container"><canvas id="leadsAudienceChart"></canvas></div></div></div>
+            <div class="grid-1-1"><div class="card"><div class="card-header"><div><div class="card-title">Budget Meta Ads</div><div class="card-subtitle">R&eacute;partition par audience Meta</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--meta-blue)"></span>Meta</div></div></div><div class="chart-container"><canvas id="budgetMetaChart"></canvas></div></div><div class="card"><div class="card-header"><div><div class="card-title">Budget LinkedIn Ads</div><div class="card-subtitle">R&eacute;partition par campagne LinkedIn</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--linkedin-blue)"></span>LinkedIn</div></div></div><div class="chart-container"><canvas id="budgetLinkedinChart"></canvas></div></div></div>
+            <div class="card" style="margin-bottom:20px"><div class="card-header"><div><div class="card-title">Co&ucirc;t par lead</div><div class="card-subtitle">&Eacute;volution mensuelle &mdash; Meta vs LinkedIn</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--meta-blue)"></span>Meta</div><div class="legend-item"><span class="legend-dot" style="background:var(--linkedin-blue)"></span>LinkedIn</div></div></div><div class="chart-container"><canvas id="cplChart"></canvas></div></div>
+            <div class="grid-1-1"><div class="card"><div class="card-header"><div><div class="card-title">CTR Meta Ads</div><div class="card-subtitle">Taux de clics par audience Meta</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--meta-blue)"></span>Meta</div></div></div><div class="chart-container"><canvas id="ctrMetaChart"></canvas></div></div><div class="card"><div class="card-header"><div><div class="card-title">CTR LinkedIn Ads</div><div class="card-subtitle">Taux de clics par campagne LinkedIn</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--linkedin-blue)"></span>LinkedIn</div></div></div><div class="chart-container"><canvas id="ctrLinkedinChart"></canvas></div></div></div>
+            <div class="grid-1-1"><div class="card"><div class="card-header"><div><div class="card-title">Leads Meta Ads</div><div class="card-subtitle">Prospects par audience Meta</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--meta-blue)"></span>Meta</div></div></div><div class="chart-container"><canvas id="leadsMetaChart"></canvas></div></div><div class="card"><div class="card-header"><div><div class="card-title">Leads LinkedIn Ads</div><div class="card-subtitle">Prospects par campagne LinkedIn</div></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot" style="background:var(--linkedin-blue)"></span>LinkedIn</div></div></div><div class="chart-container"><canvas id="leadsLinkedinChart"></canvas></div></div></div>
         </div>
 
         <!-- PAGE: PERFORMANCES -->
@@ -697,22 +699,37 @@ function renderOverviewCharts(){
     makeChart('spendChart','bar',ks.map(mLabel),[{label:'Meta',data:ks.map(k=>sum(mm[k]||[],'cost')),backgroundColor:'rgba(24,119,242,.75)',borderRadius:6,borderSkipped:false},{label:'LinkedIn',data:ks.map(k=>sum(lm[k]||[],'cost')),backgroundColor:'rgba(10,102,194,.55)',borderRadius:6,borderSkipped:false}],{y:{ticks:{callback:v=>fE(v)}}});
     // Leads
     makeChart('leadsChart','line',ks.map(mLabel),[{label:'Meta',data:ks.map(k=>sum(mm[k]||[],'leads')),borderColor:'#1877f2',backgroundColor:'rgba(24,119,242,.1)',borderWidth:2.5,fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#1877f2'},{label:'LinkedIn',data:ks.map(k=>sum(lm[k]||[],'leads')),borderColor:'#0a66c2',backgroundColor:'rgba(10,102,194,.08)',borderWidth:2.5,fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#0a66c2'}],{y:{beginAtZero:true}});
-    // Budget doughnut
-    const allD=[...MD,...LI],ag=grpAd(allD),labs=[],vals=[],cols=['#1877f2','#42a5f5','#0a66c2','#64b5f6','#90caf9','#69af36','#8ed45a','#bbdefb'];
-    Object.entries(ag).sort((a,b)=>sum(b[1],'cost')-sum(a[1],'cost')).forEach(([n,r])=>{labs.push(n);vals.push(sum(r,'cost'))});
-    makeDoughnut('budgetChart',labs,vals,cols);
-    // CPL trend
-    const allMo=grpMonth(allD),allKs=Object.keys(allMo).sort();
-    const cplData=allKs.map(k=>{const d=allMo[k],c=sum(d,'cost'),l=sum(d,'leads');return l>0?Math.round(c/l*100)/100:null});
-    makeChart('cplChart','line',allKs.map(mLabel),[{data:cplData,borderColor:'#ef6c00',backgroundColor:'rgba(239,108,0,.1)',borderWidth:2.5,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#ef6c00',spanGaps:true}],{y:{ticks:{callback:v=>v+' €'}}});
-    // CTR by audience
-    const ctrL=[],ctrV=[];
-    Object.entries(ag).forEach(([n,rs])=>{const im=sum(rs,'imp'),cl=sum(rs,'cl');ctrL.push(n);ctrV.push(im>0?Math.round((cl/im)*10000)/100:0)});
-    makeChart('ctrChart','bar',ctrL,[{data:ctrV,backgroundColor:'rgba(24,119,242,.65)',borderRadius:6,borderSkipped:false}],{x:{ticks:{callback:v=>v+'%'}}},{indexAxis:'y'});
-    // Leads by audience
-    const ldL=[],ldV=[];
-    Object.entries(ag).sort((a,b)=>sum(b[1],'leads')-sum(a[1],'leads')).forEach(([n,rs])=>{ldL.push(n);ldV.push(sum(rs,'leads'))});
-    makeChart('leadsAudienceChart','bar',ldL,[{data:ldV,backgroundColor:'rgba(105,175,54,.7)',borderRadius:6,borderSkipped:false}],{y:{beginAtZero:true}},{indexAxis:'y'});
+    // Budget Meta doughnut
+    const metaAg=grpAd(MD),metaLabs=[],metaVals=[],metaCols=['#1877f2','#42a5f5','#64b5f6','#90caf9','#bbdefb','#1565c0','#0d47a1'];
+    Object.entries(metaAg).sort((a,b)=>sum(b[1],'cost')-sum(a[1],'cost')).forEach(([n,r])=>{metaLabs.push(n);metaVals.push(sum(r,'cost'))});
+    makeDoughnut('budgetMetaChart',metaLabs,metaVals,metaCols);
+    // Budget LinkedIn doughnut
+    const liAg=grpAd(LI),liLabs=[],liVals=[],liCols=['#0a66c2','#1a7fd4','#2e94e6','#5bb0f0','#88c8f7','#0b4a87','#083d6e'];
+    Object.entries(liAg).sort((a,b)=>sum(b[1],'cost')-sum(a[1],'cost')).forEach(([n,r])=>{liLabs.push(n);liVals.push(sum(r,'cost'))});
+    makeDoughnut('budgetLinkedinChart',liLabs,liVals,liCols);
+    // CPL trend (deux lignes : Meta vs LinkedIn)
+    const mCPLo=ks.map(k=>{const d=mm[k]||[];const c=sum(d,'cost'),l=sum(d,'leads');return l>0?Math.round(c/l*100)/100:null});
+    const liCPLo=ks.map(k=>{const d=lm[k]||[];const c=sum(d,'cost'),l=sum(d,'leads');return l>0?Math.round(c/l*100)/100:null});
+    makeChart('cplChart','line',ks.map(mLabel),[
+        {label:'Meta CPL',data:mCPLo,borderColor:'#1877f2',backgroundColor:'rgba(24,119,242,.08)',borderWidth:2.5,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#1877f2',spanGaps:true},
+        {label:'LinkedIn CPL',data:liCPLo,borderColor:'#0a66c2',backgroundColor:'rgba(10,102,194,.06)',borderWidth:2.5,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#0a66c2',spanGaps:true}
+    ],{y:{ticks:{callback:v=>v+' €'}}});
+    // CTR Meta
+    const ctrML=[],ctrMV=[];
+    Object.entries(metaAg).forEach(([n,rs])=>{const im=sum(rs,'imp'),cl=sum(rs,'cl');ctrML.push(n);ctrMV.push(im>0?Math.round((cl/im)*10000)/100:0)});
+    makeChart('ctrMetaChart','bar',ctrML,[{data:ctrMV,backgroundColor:'rgba(24,119,242,.65)',borderRadius:6,borderSkipped:false}],{x:{ticks:{callback:v=>v+'%'}}},{indexAxis:'y'});
+    // CTR LinkedIn
+    const ctrLL=[],ctrLV=[];
+    Object.entries(liAg).forEach(([n,rs])=>{const im=sum(rs,'imp'),cl=sum(rs,'cl');ctrLL.push(n);ctrLV.push(im>0?Math.round((cl/im)*10000)/100:0)});
+    makeChart('ctrLinkedinChart','bar',ctrLL,[{data:ctrLV,backgroundColor:'rgba(10,102,194,.65)',borderRadius:6,borderSkipped:false}],{x:{ticks:{callback:v=>v+'%'}}},{indexAxis:'y'});
+    // Leads Meta
+    const ldML=[],ldMV=[];
+    Object.entries(metaAg).sort((a,b)=>sum(b[1],'leads')-sum(a[1],'leads')).forEach(([n,rs])=>{ldML.push(n);ldMV.push(sum(rs,'leads'))});
+    makeChart('leadsMetaChart','bar',ldML,[{data:ldMV,backgroundColor:'rgba(24,119,242,.55)',borderRadius:6,borderSkipped:false}],{y:{beginAtZero:true}},{indexAxis:'y'});
+    // Leads LinkedIn
+    const ldLL=[],ldLV=[];
+    Object.entries(liAg).sort((a,b)=>sum(b[1],'leads')-sum(a[1],'leads')).forEach(([n,rs])=>{ldLL.push(n);ldLV.push(sum(rs,'leads'))});
+    makeChart('leadsLinkedinChart','bar',ldLL,[{data:ldLV,backgroundColor:'rgba(10,102,194,.55)',borderRadius:6,borderSkipped:false}],{y:{beginAtZero:true}},{indexAxis:'y'});
 }
 
 // META PAGE
